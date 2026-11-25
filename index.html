@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,6 +52,130 @@ body {
     var(--bg);
   color: var(--text);
   font: 15px/1.5 system-ui, sans-serif;
+}
+
+/* MOON MODE BUTTON */
+
+.moon-button {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 200;
+  width: 43px;
+  height: 43px;
+  border-radius: 50%;
+  background: #24172f;
+  border: 1px solid #a875d8;
+  color: #eadcf4;
+  font-size: 21px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px #0008;
+  transition: .25s;
+}
+
+.moon-button:hover {
+  background: #694185;
+  transform: rotate(-15deg);
+}
+
+/* MIDNIGHT THEME — MONOCHROME BLACK */
+
+body.midnight {
+  --bg: #050505;
+  --panel: #111111;
+  --line: #303030;
+  --purple: #aaaaaa;
+  --lav: #dddddd;
+  --muted: #888888;
+  --text: #eeeeee;
+}
+
+body.midnight {
+  background:
+    radial-gradient(ellipse at 50% -20%, #292929 0, transparent 55%),
+    var(--bg);
+}
+
+body.midnight .home {
+  background:
+    radial-gradient(ellipse at 50% 0%, #55555533, transparent 58%),
+    linear-gradient(150deg, #1b1b1b, #080808 75%);
+  border-color: #444444;
+}
+
+body.midnight .home-title {
+  color: #eeeeee;
+  text-shadow: 0 0 28px #ffffff33;
+}
+
+body.midnight .home-copy {
+  color: #aaaaaa;
+}
+
+body.midnight .home-category {
+  background: linear-gradient(135deg, #1a1a1a, #0b0b0b);
+}
+
+body.midnight .home-category a,
+body.midnight .home-links a {
+  color: #eeeeee;
+}
+
+body.midnight .home-links a {
+  background: #202020;
+  border-color: #555555;
+}
+
+body.midnight .home-links a:first-child {
+  background: #444444;
+  border-color: #888888;
+}
+
+body.midnight .toolbar {
+  background: #050505ed;
+}
+
+body.midnight nav a {
+  background: #151515;
+  color: #dddddd;
+}
+
+body.midnight .card {
+  background: linear-gradient(145deg, #1b1b1b, #0c0c0c);
+}
+
+body.midnight .qrbox {
+  background: #080808;
+  border-color: #555555;
+}
+
+body.midnight h2 {
+  color: #dddddd;
+}
+
+body.midnight .section-head {
+  border-color: #303030;
+}
+
+body.midnight .home-mark,
+body.midnight .home-kicker {
+  color: #aaaaaa;
+}
+
+body.midnight .home-rule {
+  background: #666666;
+}
+
+body.midnight .moon-button {
+  background: #202020;
+  border-color: #777777;
+  color: #ffffff;
+}
+
+body.midnight .linktree-button {
+  background: #202020;
+  border-color: #777777;
+  color: #ffffff;
 }
 
 .wrap {
@@ -385,6 +508,13 @@ footer {
 
 <body>
 
+<button class="moon-button" id="moonButton"
+  aria-label="Toggle midnight mode"
+  aria-pressed="false"
+  title="Toggle midnight mode">
+  ☾
+</button>
+
 <main class="wrap">
 
 <section class="home" id="home">
@@ -432,7 +562,7 @@ footer {
 </div>
 
 <p class="note">
-  
+
 </p>
 
 <nav id="nav"></nav>
@@ -903,6 +1033,18 @@ search.addEventListener("input", function() {
 
     section.hidden = visibleCards === 0;
   });
+});
+
+
+/* MOON MODE */
+
+const moonButton = document.getElementById("moonButton");
+
+moonButton.addEventListener("click", function() {
+  const isMidnight = document.body.classList.toggle("midnight");
+
+  moonButton.textContent = isMidnight ? "☀" : "☾";
+  moonButton.setAttribute("aria-pressed", String(isMidnight));
 });
 
 
