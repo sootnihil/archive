@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
 <title>sootnihil — QR archive</title>
 
 <style>
-  .linktree-button {
+.linktree-button {
   position: fixed;
   right: 18px;
   bottom: 18px;
@@ -31,6 +32,7 @@
   background: #694185;
   transform: translateY(-3px);
 }
+
 :root {
   color-scheme: dark;
   --bg: #0b0810;
@@ -176,6 +178,161 @@ body.midnight .linktree-button {
   background: #202020;
   border-color: #777777;
   color: #ffffff;
+}
+
+/* INFORMATION BUTTON */
+
+.info-button {
+  font: inherit;
+  cursor: pointer;
+  display: inline-block;
+  color: #eadcf4;
+  border: 1px solid #9a70b4;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: 12px;
+  background: #694185;
+  transition: .2s;
+}
+
+.info-button:hover {
+  background: #80549e;
+  transform: translateY(-2px);
+}
+
+/* WINDOWS-STYLE INFORMATION POPUP */
+
+.info-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: #0009;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.info-overlay.active {
+  display: flex;
+}
+
+.info-window {
+  width: min(440px, 100%);
+  background: #15101d;
+  border: 1px solid #a875d8;
+  box-shadow: 0 15px 60px #000a;
+  color: #f3edf7;
+  font-family: Arial, sans-serif;
+}
+
+.info-titlebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  background: #694185;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.info-close {
+  width: 23px;
+  height: 21px;
+  border: 1px solid #eadcf4;
+  background: #24172f;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.info-content {
+  padding: 20px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.info-icon {
+  font-size: 30px;
+  flex-shrink: 0;
+}
+
+.info-message {
+  font-size: 13px;
+  line-height: 1.65;
+  color: #d7c9e1;
+}
+
+.info-message strong {
+  color: #eadcf4;
+}
+
+.info-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 16px 15px;
+}
+
+.info-ok {
+  min-width: 75px;
+  padding: 6px 16px;
+  border: 1px solid #a875d8;
+  background: #24172f;
+  color: #eadcf4;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.info-ok:hover {
+  background: #694185;
+}
+
+/* MIDNIGHT VERSION OF POPUP */
+
+body.midnight .info-window {
+  background: #111111;
+  border-color: #777777;
+  color: #eeeeee;
+}
+
+body.midnight .info-titlebar {
+  background: #303030;
+  color: #ffffff;
+}
+
+body.midnight .info-close {
+  background: #181818;
+  border-color: #888888;
+}
+
+body.midnight .info-message {
+  color: #cccccc;
+}
+
+body.midnight .info-message strong {
+  color: #ffffff;
+}
+
+body.midnight .info-ok {
+  background: #202020;
+  border-color: #888888;
+  color: #ffffff;
+}
+
+body.midnight .info-ok:hover {
+  background: #444444;
+}
+
+body.midnight .info-button {
+  background: #333333;
+  border-color: #777777;
+  color: #ffffff;
+}
+
+body.midnight .info-button:hover {
+  background: #505050;
 }
 
 .wrap {
@@ -525,14 +682,50 @@ footer {
     a collection of video star QR codes I made & regularly use in my edits.
   </p>
   <div class="home-rule"></div>
+
   <div class="home-links">
-    <a href="#shakes">Explore the archive</a>
-    <a href="#coloring">Browse QRs</a>
+    <button class="info-button" id="infoButton">
+      Information / Help
+    </button>
   </div>
+
   <p class="home-foot">
     MADE BY <span>·</span> SOOTNIHIL
   </p>
 </section>
+
+<!-- INFORMATION POPUP -->
+
+<div class="info-overlay" id="infoOverlay">
+  <div class="info-window" role="dialog"
+       aria-modal="true" aria-labelledby="infoTitle">
+
+    <div class="info-titlebar">
+      <span id="infoTitle">SOOTNIHIL.EXE — Information</span>
+      <button class="info-close" id="infoClose"
+              aria-label="Close">×</button>
+    </div>
+
+    <div class="info-content">
+      <div class="info-icon">ⓘ</div>
+
+      <div class="info-message">
+        <strong>Hi, Gwen here:)</strong>
+        <br><br>
+        This is my first webpage i published to a bigger audience than my school, so it might be a little buggy and not so user friendly due to shitty knowledge based on youtube tutorials.
+        <br><br>
+        I plan on making the QRs downloadable, but for now, you have to screenshot them (you need to zoom for presets that need more than one QR to screenshot).
+        <br><br>
+        My tiktok DMs are always open if you need any help! &lt;3
+      </div>
+    </div>
+
+    <div class="info-footer">
+      <button class="info-ok" id="infoOK">OK</button>
+    </div>
+
+  </div>
+</div>
 
 <div class="home-categories">
   <div class="home-category">
@@ -587,11 +780,6 @@ const BRANCH = "main";
 
 /* ==========================================
    EDIT YOUR CARDS HERE
-
-   Copy a whole card object to add another one.
-
-   images = QR filenames inside the category folder
-   video  = demo video filename, or "" for none
 ========================================== */
 
 const categories = {
@@ -602,62 +790,61 @@ const categories = {
       images: ["verticalshake.JPG"],
       video: ""
     },
-{
-  title: "Horizontal shake",
-  images: ["8.JPG"],
-  video: ""
-},
-{
-  title: "Mid shake with zoom",
-  images: ["IMG_3895.JPG"],
-  video: ""
-},
-{
-  title: "Squish shake",
-  images: ["IMG_3893.JPG"],
-  video: ""
-},
-{
-  title: "Skew shake",
-  images: ["IMG_3891.JPG"],
-  video: ""
-},
-{
-  title: "Tilt shake",
-  images: ["IMG_3889.JPG"],
-  video: ""
-},
-{
-  title: "Pinch shake",
-  images: ["IMG_3887.JPG"],
-  video: ""
-},
-{
-  title: "Twitch shake",
-  images: ["6.JPG"],
-  video: ""
-},
-{
-  title: "Sweet shake vertical",
-  images: ["IMG_3854.JPG"],
-  video: ""
-},
-{
-  title: "Sweet shake horizontal",
-  images: ["IMG_3856.JPG"],
-  video: ""
-},
-{
-  title: "Swoop shake",
-  images: ["IMG_3905.JPG"],
-  video: ""
-},
-{
-  title: "End shake",
-  images: ["IMG_3899.JPG"],
-  video: ""
-},
-
+    {
+      title: "Horizontal shake",
+      images: ["8.JPG"],
+      video: ""
+    },
+    {
+      title: "Mid shake with zoom",
+      images: ["IMG_3895.JPG"],
+      video: ""
+    },
+    {
+      title: "Squish shake",
+      images: ["IMG_3893.JPG"],
+      video: ""
+    },
+    {
+      title: "Skew shake",
+      images: ["IMG_3891.JPG"],
+      video: ""
+    },
+    {
+      title: "Tilt shake",
+      images: ["IMG_3889.JPG"],
+      video: ""
+    },
+    {
+      title: "Pinch shake",
+      images: ["IMG_3887.JPG"],
+      video: ""
+    },
+    {
+      title: "Twitch shake",
+      images: ["6.JPG"],
+      video: ""
+    },
+    {
+      title: "Sweet shake vertical",
+      images: ["IMG_3854.JPG"],
+      video: ""
+    },
+    {
+      title: "Sweet shake horizontal",
+      images: ["IMG_3856.JPG"],
+      video: ""
+    },
+    {
+      title: "Swoop shake",
+      images: ["IMG_3905.JPG"],
+      video: ""
+    },
+    {
+      title: "End shake",
+      images: ["IMG_3899.JPG"],
+      video: ""
+    },
   ],
 
   "Jugg": [
@@ -686,57 +873,57 @@ const categories = {
       images: ["IMG_3840.JPG"],
       video: ""
     },
-  {
+    {
       title: "Zoom in jitter shake",
       images: ["IMG_3841.JPG"],
       video: ""
     },
-  {
+    {
       title: "Jugg flash",
       images: ["IMG_3843.JPG"],
       video: ""
     },
-  {
+    {
       title: "Mini wave glitch",
       images: ["IMG_3842.JPG"],
       video: ""
     },
-  {
+    {
       title: "Half sine glitch",
       images: ["IMG_3844.JPG"],
       video: ""
     },
-  {
+    {
       title: "Inflator in",
       images: ["IMG_3845.JPG"],
       video: ""
     },
-  {
+    {
       title: "X-ray flash",
       images: ["IMG_3847.JPG"],
       video: ""
     },
-  {
+    {
       title: "Opacity with turbulence",
       images: ["IMG_3848.JPG"],
       video: ""
     },
-  {
+    {
       title: "Video melt",
       images: ["IMG_3849.JPG"],
       video: ""
     },
-  {
+    {
       title: "Half x-ray",
       images: ["IMG_3850.JPG"],
       video: ""
     },
-  {
+    {
       title: "Pixelate v.1",
       images: ["IMG_3852.JPG"],
       video: ""
     },
-  {
+    {
       title: "Pixelate v.2",
       images: ["IMG_3851.JPG"],
       video: ""
@@ -757,17 +944,16 @@ const categories = {
       images: ["3.JPG", "4.JPG", "5.JPG"],
       video: ""
     },
-{
+    {
       title: "Glow blur",
       images: ["IMG_3901.JPG"],
       video: ""
     },
-{
+    {
       title: "Directional blur",
       images: ["IMG_3897.JPG"],
       video: ""
     },
-
   ],
 
   "Transitions": [
@@ -800,27 +986,27 @@ const categories = {
       images: ["IMG_3862.JPG"],
       video: ""
     },
- {
+    {
       title: "Mini wave horizontal",
       images: ["IMG_3863.JPG"],
       video: ""
     },
- {
+    {
       title: "Panning",
       images: ["IMG_3865.JPG"],
       video: ""
     },
- {
+    {
       title: "Blacken",
       images: ["IMG_3870.JPG"],
       video: ""
     },
- {
+    {
       title: "Halfone",
       images: ["IMG_3872.JPG"],
       video: ""
     },
- {
+    {
       title: "Glitchy",
       images: ["IMG_3903.JPG"],
       video: ""
@@ -1048,11 +1234,44 @@ moonButton.addEventListener("click", function() {
 });
 
 
+/* INFORMATION POPUP */
+
+const infoButton = document.getElementById("infoButton");
+const infoOverlay = document.getElementById("infoOverlay");
+const infoClose = document.getElementById("infoClose");
+const infoOK = document.getElementById("infoOK");
+
+function openInfo() {
+  infoOverlay.classList.add("active");
+}
+
+function closeInfo() {
+  infoOverlay.classList.remove("active");
+}
+
+infoButton.addEventListener("click", openInfo);
+infoClose.addEventListener("click", closeInfo);
+infoOK.addEventListener("click", closeInfo);
+
+infoOverlay.addEventListener("click", function(event) {
+  if (event.target === infoOverlay) {
+    closeInfo();
+  }
+});
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape") {
+    closeInfo();
+  }
+});
+
+
 /* START */
 
 buildArchive();
 
 </script>
+
 <a
   class="linktree-button"
   href="https://linktr.ee/sootnihil"
@@ -1063,5 +1282,6 @@ buildArchive();
 >
   ↗
 </a>
+
 </body>
 </html>
