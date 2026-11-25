@@ -289,7 +289,7 @@ body.midnight .linktree-button {
   background: #694185;
 }
 
-/* MIDNIGHT VERSION OF POPUP */
+/* MIDNIGHT POPUP */
 
 body.midnight .info-window {
   background: #111111;
@@ -334,6 +334,8 @@ body.midnight .info-button {
 body.midnight .info-button:hover {
   background: #505050;
 }
+
+/* MAIN LAYOUT */
 
 .wrap {
   width: min(1100px, 100%);
@@ -430,6 +432,7 @@ body.midnight .info-button:hover {
   color: #82718d;
   margin: 27px 0 0;
 }
+
 .home-foot span {
   color: #b58bd0;
   padding: 0 5px;
@@ -462,6 +465,8 @@ body.midnight .info-button:hover {
   text-decoration: none;
   font: 16px Georgia, serif;
 }
+
+/* SEARCH */
 
 .toolbar {
   position: sticky;
@@ -497,6 +502,8 @@ input[type="search"] {
   margin: 4px 2px 18px;
 }
 
+/* NAVIGATION */
+
 nav {
   display: flex;
   gap: 7px;
@@ -515,6 +522,8 @@ nav a {
   border-radius: 999px;
   font-size: 12px;
 }
+
+/* SECTIONS */
 
 section.archive-section {
   scroll-margin-top: 95px;
@@ -550,6 +559,8 @@ h2 {
   gap: 11px;
 }
 
+/* CARDS */
+
 .card {
   min-width: 0;
   background: linear-gradient(145deg, #1b1423, #100d16);
@@ -571,14 +582,33 @@ h2 {
   margin-bottom: 9px;
 }
 
-.qr-gallery {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+/* SLIDE GALLERY */
+
+.media-carousel {
+  width: 100%;
+  min-width: 0;
 }
 
-.qr-gallery.single {
-  grid-template-columns: 1fr;
+.media-track {
+  display: flex;
+  width: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  border-radius: 10px;
+  touch-action: pan-x;
+}
+
+.media-track::-webkit-scrollbar {
+  display: none;
+}
+
+.media-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 .qrbox {
@@ -603,19 +633,77 @@ h2 {
   background: white;
 }
 
+.download-link {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid #604475;
+  border-radius: 8px;
+  background: #24172f;
+  color: var(--lav);
+  text-decoration: none;
+  font-size: 11px;
+  transition: .2s;
+}
+
+.download-link:hover {
+  background: #694185;
+  color: white;
+}
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.carousel-arrow {
+  width: 31px;
+  height: 29px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #24172f;
+  color: var(--lav);
+  cursor: pointer;
+  font-size: 15px;
+  transition: .2s;
+}
+
+.carousel-arrow:hover {
+  background: #694185;
+  color: white;
+}
+
+.slide-count {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .1em;
+}
+
+/* VIDEO SLIDE */
+
+.video-slide {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .preview {
   width: 100%;
-  max-height: 190px;
+  aspect-ratio: 1 / 1;
+  max-height: 300px;
   display: block;
   object-fit: contain;
   background: #08060a;
   border-radius: 9px;
-  margin-top: 8px;
 }
 
 .demo-link {
   display: inline-block;
-  margin-top: 9px;
   color: var(--lav);
   font-size: 11px;
   text-decoration: none;
@@ -627,6 +715,34 @@ h2 {
   margin-top: 8px;
 }
 
+/* MIDNIGHT GALLERY */
+
+body.midnight .download-link {
+  background: #202020;
+  border-color: #555555;
+  color: #eeeeee;
+}
+
+body.midnight .download-link:hover {
+  background: #444444;
+}
+
+body.midnight .carousel-arrow {
+  background: #202020;
+  border-color: #555555;
+  color: #eeeeee;
+}
+
+body.midnight .carousel-arrow:hover {
+  background: #444444;
+}
+
+body.midnight .preview {
+  background: #080808;
+}
+
+/* FOOTER */
+
 footer {
   text-align: center;
   color: #75667e;
@@ -635,17 +751,22 @@ footer {
   border-top: 1px solid var(--line);
 }
 
+/* RESPONSIVE */
+
 @media (min-width: 620px) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 14px;
   }
+
   .wrap {
     padding-left: 22px;
     padding-right: 22px;
   }
+
   .card { padding: 13px; }
   .home { padding: 75px 30px 42px; }
+
   .home-categories {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -732,14 +853,17 @@ footer {
     <span>01 / MOVEMENT</span>
     <a href="#shakes">Shakes & Jugg ↗</a>
   </div>
+
   <div class="home-category">
     <span>02 / TONE</span>
     <a href="#coloring">Coloring & Blurs ↗</a>
   </div>
+
   <div class="home-category">
     <span>03 / FLOW</span>
     <a href="#transitions">Transitions ↗</a>
   </div>
+
   <div class="home-category">
     <span>04 / DETAILS</span>
     <a href="#effects-extras">Effects & extras ↗</a>
@@ -754,9 +878,7 @@ footer {
   </div>
 </div>
 
-<p class="note">
-
-</p>
+<p class="note"></p>
 
 <nav id="nav"></nav>
 <div id="catalog"></div>
@@ -780,6 +902,21 @@ const BRANCH = "main";
 
 /* ==========================================
    EDIT YOUR CARDS HERE
+
+   Copy a whole card object to add another one.
+
+   images = QR filenames
+   video  = demo video filename, or "" for none
+
+   Example:
+
+   {
+     title: "My preset",
+     images: ["qr1.JPG", "qr2.JPG"],
+     video: "demo.mp4"
+   }
+
+   The images and video will become slides.
 ========================================== */
 
 const categories = {
@@ -788,7 +925,7 @@ const categories = {
     {
       title: "Verical shake",
       images: ["verticalshake.JPG"],
-      video: ""
+      video: "verticalshake.mov"
     },
     {
       title: "Horizontal shake",
@@ -933,7 +1070,7 @@ const categories = {
   "Coloring": [
     {
       title: "Coloring 01",
-      images: "nothings here yet:)",
+      images: ["01-qr1.png"],
       video: ""
     }
   ],
@@ -959,7 +1096,14 @@ const categories = {
   "Transitions": [
     {
       title: "Smooth slide",
-      images: ["IMG_3879.JPG", "IMG_3880.JPG", "IMG_3881.JPG", "IMG_3882.JPG", "IMG_3883.JPG", "IMG_3884.JPG"],
+      images: [
+        "IMG_3879.JPG",
+        "IMG_3880.JPG",
+        "IMG_3881.JPG",
+        "IMG_3882.JPG",
+        "IMG_3883.JPG",
+        "IMG_3884.JPG"
+      ],
       video: ""
     }
   ],
@@ -967,7 +1111,7 @@ const categories = {
   "Transitions (Advanced)": [
     {
       title: "Advanced Transition 01",
-      images: "nothings here yet:)",
+      images: ["01-qr1.png"],
       video: ""
     }
   ],
@@ -975,7 +1119,7 @@ const categories = {
   "Velocity": [
     {
       title: "Velocity 01",
-      images: "nothings here yet:)",
+      images: ["01-qr1.png"],
       video: ""
     }
   ],
@@ -1026,7 +1170,7 @@ const folderNames = {
   "Coloring": "coloring",
   "Blurs": "blurs",
   "Transitions": "transitions",
-  "Transitions Advanced": "transitions-advanced",
+  "Transitions (Advanced)": "transitions-advanced",
   "Velocity": "velocity",
   "Effects / Extras": "effects-extras"
 };
@@ -1037,49 +1181,277 @@ const sectionIds = {
   "Coloring": "coloring",
   "Blurs": "blurs",
   "Transitions": "transitions",
-  "Transitions Advanced": "transitions-advanced",
+  "Transitions (Advanced)": "transitions-advanced",
   "Velocity": "velocity",
   "Effects / Extras": "effects-extras"
 };
 
 
 /* ==========================================
-   WEBSITE FUNCTIONS
+   WEBSITE ELEMENTS
 ========================================== */
 
 const nav = document.getElementById("nav");
 const catalog = document.getElementById("catalog");
 const search = document.getElementById("search");
 
+
+/* FILE URL */
+
 function fileURL(category, filename) {
   return "./" + filename;
 }
 
 
-/* CREATE QR IMAGE */
+/* ==========================================
+   CREATE QR SLIDE
+========================================== */
 
-function makeQRImage(folder, filename, index) {
+function makeQRSlide(category, filename, index) {
+
+  const slide = document.createElement("div");
+  slide.className = "media-slide";
+
   const box = document.createElement("div");
   box.className = "qrbox";
 
   const image = document.createElement("img");
   image.alt = "QR code " + (index + 1);
   image.loading = "lazy";
+  image.src = fileURL(category, filename);
 
   image.onerror = function() {
     box.textContent = "Add image: " + filename;
   };
 
-  image.src = fileURL(folder, filename);
   box.appendChild(image);
+  slide.appendChild(box);
 
-  return box;
+  /* DOWNLOAD BUTTON */
+
+  const download = document.createElement("a");
+  download.className = "download-link";
+  download.href = fileURL(category, filename);
+  download.download = filename;
+  download.textContent = "↓ Download QR";
+
+  slide.appendChild(download);
+
+  return slide;
 }
 
 
-/* CREATE CARD */
+/* ==========================================
+   CREATE VIDEO SLIDE
+========================================== */
+
+function makeVideoSlide(category, filename) {
+
+  const slide = document.createElement("div");
+  slide.className = "media-slide video-slide";
+
+  const video = document.createElement("video");
+
+  video.className = "preview";
+  video.controls = true;
+  video.playsInline = true;
+  video.preload = "metadata";
+  video.muted = true;
+  video.loop = false;
+  video.src = fileURL(category, filename);
+
+  /* Start paused. The carousel starts it when
+     the visitor reaches the video slide. */
+
+  video.pause();
+
+  const videoLink = document.createElement("a");
+
+  videoLink.className = "demo-link";
+  videoLink.textContent = "Open demo video ↗";
+  videoLink.href = fileURL(category, filename);
+  videoLink.target = "_blank";
+  videoLink.rel = "noopener";
+
+  slide.appendChild(video);
+  slide.appendChild(videoLink);
+
+  return slide;
+}
+
+
+/* ==========================================
+   CREATE SLIDING GALLERY
+========================================== */
+
+function makeCarousel(category, entry) {
+
+  const carousel = document.createElement("div");
+  carousel.className = "media-carousel";
+
+  const track = document.createElement("div");
+  track.className = "media-track";
+
+  const images = Array.isArray(entry.images)
+    ? entry.images
+    : [];
+
+  let slideTotal = 0;
+
+  /* ADD QR IMAGE SLIDES */
+
+  images.forEach(function(filename, index) {
+
+    track.appendChild(
+      makeQRSlide(category, filename, index)
+    );
+
+    slideTotal++;
+  });
+
+  /* ADD VIDEO AS THE LAST SLIDE */
+
+  if (entry.video && entry.video.trim() !== "") {
+
+    track.appendChild(
+      makeVideoSlide(category, entry.video)
+    );
+
+    slideTotal++;
+  }
+
+  /* EMPTY PLACEHOLDER */
+
+  if (slideTotal === 0) {
+
+    const placeholder = document.createElement("div");
+    placeholder.className = "qrbox";
+    placeholder.textContent = "QR image not added yet";
+
+    track.appendChild(placeholder);
+    carousel.appendChild(track);
+
+    return carousel;
+  }
+
+  carousel.appendChild(track);
+
+  /* CAROUSEL CONTROLS */
+
+  if (slideTotal > 1) {
+
+    const controls = document.createElement("div");
+    controls.className = "carousel-controls";
+
+    const previous = document.createElement("button");
+    previous.className = "carousel-arrow";
+    previous.textContent = "‹";
+    previous.type = "button";
+    previous.setAttribute("aria-label", "Previous slide");
+
+    const counter = document.createElement("span");
+    counter.className = "slide-count";
+
+    const next = document.createElement("button");
+    next.className = "carousel-arrow";
+    next.textContent = "›";
+    next.type = "button";
+    next.setAttribute("aria-label", "Next slide");
+
+    controls.appendChild(previous);
+    controls.appendChild(counter);
+    controls.appendChild(next);
+
+    carousel.appendChild(controls);
+
+    let activeIndex = 0;
+
+    function updateCarousel() {
+
+      activeIndex = Math.round(
+        track.scrollLeft / track.clientWidth
+      );
+
+      activeIndex = Math.max(
+        0,
+        Math.min(activeIndex, slideTotal - 1)
+      );
+
+      counter.textContent =
+        (activeIndex + 1) + " / " + slideTotal;
+
+      /* PLAY VIDEO ONLY WHEN ITS SLIDE IS ACTIVE */
+
+      const slides = track.querySelectorAll(".media-slide");
+
+      slides.forEach(function(slide, index) {
+
+        const video = slide.querySelector("video");
+
+        if (!video) return;
+
+        if (index === activeIndex) {
+
+          video.play().catch(function() {
+            /* Browser may block autoplay. Controls remain available. */
+          });
+
+        } else {
+
+          video.pause();
+        }
+
+      });
+    }
+
+    function goToSlide(index) {
+
+      const newIndex =
+        (index + slideTotal) % slideTotal;
+
+      track.scrollTo({
+        left: newIndex * track.clientWidth,
+        behavior: "smooth"
+      });
+    }
+
+    previous.addEventListener("click", function() {
+      goToSlide(activeIndex - 1);
+    });
+
+    next.addEventListener("click", function() {
+      goToSlide(activeIndex + 1);
+    });
+
+    track.addEventListener("scroll", function() {
+      window.requestAnimationFrame(updateCarousel);
+    });
+
+    counter.textContent = "1 / " + slideTotal;
+
+  }
+  else {
+
+    /* No navigation needed for a single slide. */
+
+    const onlyVideo = track.querySelector("video");
+
+    if (onlyVideo) {
+      onlyVideo.play().catch(function() {});
+    }
+
+  }
+
+  return carousel;
+}
+
+
+/* ==========================================
+   CREATE CARD
+========================================== */
 
 function makeCard(category, entry, index) {
+
   const card = document.createElement("article");
   card.className = "card";
 
@@ -1088,74 +1460,33 @@ function makeCard(category, entry, index) {
   ).toLowerCase();
 
   const title = document.createElement("h3");
-  title.textContent = entry.title || (category + " " + (index + 1));
+
+  title.textContent =
+    entry.title || (category + " " + (index + 1));
 
   const sub = document.createElement("div");
   sub.className = "sub";
+
   sub.textContent =
     "QR ARCHIVE · #" + String(index + 1).padStart(2, "0");
 
   card.appendChild(title);
   card.appendChild(sub);
 
-  const folder = folderNames[category];
-  const images = Array.isArray(entry.images) ? entry.images : [];
-
-  if (images.length > 0) {
-    const gallery = document.createElement("div");
-    gallery.className = "qr-gallery";
-
-    if (images.length === 1) {
-      gallery.classList.add("single");
-    }
-
-    images.forEach(function(filename, imageIndex) {
-      gallery.appendChild(
-        makeQRImage(folder, filename, imageIndex)
-      );
-    });
-
-    card.appendChild(gallery);
-  } else {
-    const placeholder = document.createElement("div");
-    placeholder.className = "qrbox";
-    placeholder.textContent = "QR image not added yet";
-    card.appendChild(placeholder);
-  }
-
-  if (entry.video && entry.video.trim() !== "") {
-    const videoBox = document.createElement("div");
-
-    const video = document.createElement("video");
-    video.className = "preview";
-    video.controls = true;
-    video.playsInline = true;
-    video.preload = "metadata";
-    video.src = fileURL(folder, entry.video);
-
-    const videoLink = document.createElement("a");
-    videoLink.className = "demo-link";
-    videoLink.textContent = "Open demo video ↗";
-    videoLink.href = fileURL(folder, entry.video);
-    videoLink.target = "_blank";
-    videoLink.rel = "noopener";
-
-    video.addEventListener("error", function() {
-      videoBox.remove();
-    }, { once: true });
-
-    videoBox.appendChild(video);
-    videoBox.appendChild(videoLink);
-    card.appendChild(videoBox);
-  }
+  card.appendChild(
+    makeCarousel(category, entry)
+  );
 
   return card;
 }
 
 
-/* BUILD ARCHIVE */
+/* ==========================================
+   BUILD ARCHIVE
+========================================== */
 
 function buildArchive() {
+
   nav.innerHTML = "";
   catalog.innerHTML = "";
 
@@ -1166,9 +1497,11 @@ function buildArchive() {
     const navLink = document.createElement("a");
     navLink.href = "#" + sectionId;
     navLink.textContent = category;
+
     nav.appendChild(navLink);
 
     const block = document.createElement("section");
+
     block.className = "archive-section";
     block.id = sectionId;
     block.dataset.section = category;
@@ -1181,6 +1514,7 @@ function buildArchive() {
 
     const count = document.createElement("span");
     count.className = "count";
+
     count.textContent =
       entries.length + (entries.length === 1 ? " card" : " cards");
 
@@ -1191,50 +1525,77 @@ function buildArchive() {
     grid.className = "grid";
 
     entries.forEach(function(entry, index) {
-      grid.appendChild(makeCard(category, entry, index));
+
+      grid.appendChild(
+        makeCard(category, entry, index)
+      );
+
     });
 
     block.appendChild(heading);
     block.appendChild(grid);
+
     catalog.appendChild(block);
+
   });
+
 }
 
 
-/* SEARCH */
+/* ==========================================
+   SEARCH
+========================================== */
 
 search.addEventListener("input", function() {
+
   const query = search.value.trim().toLowerCase();
 
   document.querySelectorAll(".archive-section").forEach(function(section) {
+
     const cards = section.querySelectorAll(".card");
     let visibleCards = 0;
 
     cards.forEach(function(card) {
+
       const matches = card.dataset.search.includes(query);
+
       card.hidden = !matches;
 
       if (matches) visibleCards++;
+
     });
 
     section.hidden = visibleCards === 0;
+
   });
+
 });
 
 
-/* MOON MODE */
+/* ==========================================
+   MOON MODE
+========================================== */
 
 const moonButton = document.getElementById("moonButton");
 
 moonButton.addEventListener("click", function() {
-  const isMidnight = document.body.classList.toggle("midnight");
+
+  const isMidnight =
+    document.body.classList.toggle("midnight");
 
   moonButton.textContent = isMidnight ? "☀" : "☾";
-  moonButton.setAttribute("aria-pressed", String(isMidnight));
+
+  moonButton.setAttribute(
+    "aria-pressed",
+    String(isMidnight)
+  );
+
 });
 
 
-/* INFORMATION POPUP */
+/* ==========================================
+   INFORMATION POPUP
+========================================== */
 
 const infoButton = document.getElementById("infoButton");
 const infoOverlay = document.getElementById("infoOverlay");
@@ -1254,19 +1615,25 @@ infoClose.addEventListener("click", closeInfo);
 infoOK.addEventListener("click", closeInfo);
 
 infoOverlay.addEventListener("click", function(event) {
+
   if (event.target === infoOverlay) {
     closeInfo();
   }
+
 });
 
 document.addEventListener("keydown", function(event) {
+
   if (event.key === "Escape") {
     closeInfo();
   }
+
 });
 
 
-/* START */
+/* ==========================================
+   START
+========================================== */
 
 buildArchive();
 
