@@ -1,0 +1,892 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#100b18">
+<title>sootnihil — QR archive</title>
+
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #0b0810;
+  --panel: #15101d;
+  --line: #382747;
+  --purple: #a875d8;
+  --lav: #d7b8f3;
+  --muted: #a99bb5;
+  --text: #f3edf7;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 50% -20%, #382047 0, transparent 55%),
+    var(--bg);
+  color: var(--text);
+  font: 15px/1.5 system-ui, sans-serif;
+}
+
+.wrap {
+  width: min(1100px, 100%);
+  margin: auto;
+  padding: 18px 14px 70px;
+}
+
+.home {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  padding: 54px 18px 34px;
+  margin: 8px 0 20px;
+  border: 1px solid #4b345d;
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse at 50% 0%, #59366d66, transparent 58%),
+    linear-gradient(150deg, #1b1224, #0d0912 75%);
+  box-shadow: inset 0 0 55px #4c28601c, 0 18px 55px #0005;
+}
+
+.home:before, .home:after {
+  content: "✧";
+  position: absolute;
+  color: #795b8d;
+  font-size: 26px;
+  opacity: .6;
+}
+.home:before { top: 22px; left: 22px; }
+.home:after { right: 22px; bottom: 18px; }
+
+.home-mark {
+  font-size: 12px;
+  letter-spacing: .45em;
+  color: #9b78b2;
+}
+
+.home-kicker {
+  font-size: 10px;
+  letter-spacing: .34em;
+  color: #b99acb;
+  margin: 23px 0 5px;
+}
+
+.home-title {
+  font: 400 clamp(42px, 12vw, 82px)/1 Georgia, serif;
+  letter-spacing: .13em;
+  color: #eadcf4;
+  text-shadow: 0 0 28px #a875d855;
+  margin: 0 0 14px;
+}
+
+.home-copy {
+  max-width: 390px;
+  margin: auto;
+  color: #b7a8c1;
+  font: italic 15px/1.7 Georgia, serif;
+}
+
+.home-rule {
+  width: 70px;
+  height: 1px;
+  background: #79558f;
+  margin: 24px auto;
+}
+
+.home-links {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.home-links a {
+  display: inline-block;
+  text-decoration: none;
+  color: #eadcf4;
+  border: 1px solid #76548b;
+  border-radius: 999px;
+  padding: 10px 15px;
+  font-size: 12px;
+  background: #24172f;
+}
+
+.home-links a:first-child {
+  background: #694185;
+  border-color: #9a70b4;
+  color: white;
+}
+
+.home-foot {
+  font-size: 9px;
+  letter-spacing: .2em;
+  color: #82718d;
+  margin: 27px 0 0;
+}
+.home-foot span {
+  color: #b58bd0;
+  padding: 0 5px;
+}
+
+.home-categories {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-bottom: 24px;
+}
+
+.home-category {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 13px;
+  background: linear-gradient(135deg, #1a1222, #100c15);
+}
+
+.home-category span {
+  display: block;
+  color: #8d789b;
+  font-size: 9px;
+  letter-spacing: .18em;
+  margin-bottom: 5px;
+}
+
+.home-category a {
+  color: #d9c3e9;
+  text-decoration: none;
+  font: 16px Georgia, serif;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  padding: 10px 0;
+  background: #0b0810ed;
+  backdrop-filter: blur(12px);
+}
+
+.search {
+  flex: 1;
+  min-width: 150px;
+}
+
+input { font: inherit; }
+
+input[type="search"] {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.note {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 4px 2px 18px;
+}
+
+nav {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding: 5px 0 13px;
+  scrollbar-width: thin;
+}
+
+nav a {
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--lav);
+  border: 1px solid var(--line);
+  background: #17101f;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+section.archive-section {
+  scroll-margin-top: 95px;
+  margin: 24px 0 32px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 9px;
+  margin-bottom: 13px;
+}
+
+h2 {
+  font: 400 25px Georgia, serif;
+  margin: 0;
+  color: var(--lav);
+}
+
+.count {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+}
+
+.card {
+  min-width: 0;
+  background: linear-gradient(145deg, #1b1423, #100d16);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  padding: 11px;
+  box-shadow: 0 8px 25px #0003;
+}
+
+.card h3 {
+  margin: 0 0 2px;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.sub {
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 9px;
+}
+
+.qr-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.qr-gallery.single {
+  grid-template-columns: 1fr;
+}
+
+.qrbox {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  background: #09070c;
+  border: 1px dashed #604475;
+  border-radius: 10px;
+  overflow: hidden;
+  color: #8e7a9b;
+  font-size: 12px;
+  text-align: center;
+  padding: 10px;
+}
+
+.qrbox img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: white;
+}
+
+.preview {
+  width: 100%;
+  max-height: 190px;
+  display: block;
+  object-fit: contain;
+  background: #08060a;
+  border-radius: 9px;
+  margin-top: 8px;
+}
+
+.demo-link {
+  display: inline-block;
+  margin-top: 9px;
+  color: var(--lav);
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.empty {
+  color: #897b91;
+  font-size: 11px;
+  margin-top: 8px;
+}
+
+footer {
+  text-align: center;
+  color: #75667e;
+  font-size: 11px;
+  padding: 25px 10px;
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 620px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .wrap {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+  .card { padding: 13px; }
+  .home { padding: 75px 30px 42px; }
+  .home-categories {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 360px) {
+  .grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<main class="wrap">
+
+<section class="home" id="home">
+  <div class="home-mark">✦ ─── ☾ ─── ✦</div>
+  <p class="home-kicker">WELCOME TO THE ARCHIVE OF</p>
+  <h1 class="home-title">SOOTNIHIL</h1>
+  <p class="home-copy">
+    a collection of video star QR codes I made & regularly use in my edits.
+  </p>
+  <div class="home-rule"></div>
+  <div class="home-links">
+    <a href="#shakes">Explore the archive</a>
+    <a href="#coloring">Browse QRs</a>
+  </div>
+  <p class="home-foot">
+    MADE BY <span>·</span> SOOTNIHIL
+  </p>
+</section>
+
+<div class="home-categories">
+  <div class="home-category">
+    <span>01 / MOVEMENT</span>
+    <a href="#shakes">Shakes & Jugg ↗</a>
+  </div>
+  <div class="home-category">
+    <span>02 / TONE</span>
+    <a href="#coloring">Coloring & Blurs ↗</a>
+  </div>
+  <div class="home-category">
+    <span>03 / FLOW</span>
+    <a href="#transitions">Transitions ↗</a>
+  </div>
+  <div class="home-category">
+    <span>04 / DETAILS</span>
+    <a href="#effects-extras">Effects & extras ↗</a>
+  </div>
+</div>
+
+<div class="toolbar">
+  <div class="search">
+    <input id="search" type="search"
+      placeholder="Search QR codes or sections..."
+      aria-label="Search archive">
+  </div>
+</div>
+
+<p class="note">
+  Browse the archive and open the QR images you need.
+</p>
+
+<nav id="nav"></nav>
+<div id="catalog"></div>
+
+</main>
+
+<footer>
+  your mum would like me
+</footer>
+
+<script>
+
+/* ==========================================
+   YOUR GITHUB INFORMATION
+========================================== */
+
+const GITHUB_USERNAME = "YOUR_GITHUB_USERNAME";
+const REPOSITORY_NAME = "YOUR_REPOSITORY_NAME";
+const BRANCH = "main";
+
+
+/* ==========================================
+   EDIT YOUR CARDS HERE
+
+   Copy a whole card object to add another one.
+
+   images = QR filenames inside the category folder
+   video  = demo video filename, or "" for none
+========================================== */
+
+const categories = {
+
+  "Shakes": [
+    {
+      title: "Verical shake",
+      images: ["verticalshake.JPG"],
+      video: ""
+    },
+{
+  title: "Horizontal shake",
+  images: ["8.JPG"],
+  video: ""
+},
+{
+  title: "Mid shake with zoom",
+  images: ["IMG_3895.JPG"],
+  video: ""
+},
+{
+  title: "Squish shake",
+  images: ["IMG_3893.JPG"],
+  video: ""
+},
+{
+  title: "Skew shake",
+  images: ["IMG_3891.JPG"],
+  video: ""
+},
+{
+  title: "Tilt shake",
+  images: ["IMG_3889.JPG"],
+  video: ""
+},
+{
+  title: "Pinch shake",
+  images: ["IMG_3887.JPG"],
+  video: ""
+},
+{
+  title: "Twitch shake",
+  images: ["6.JPG"],
+  video: ""
+},
+{
+  title: "Sweet shake vertical",
+  images: ["IMG_3854.JPG"],
+  video: ""
+},
+{
+  title: "Sweet shake horizontal",
+  images: ["IMG_3856.JPG"],
+  video: ""
+},
+{
+  title: "Swoop shake",
+  images: ["IMG_3905.JPG"],
+  video: ""
+},
+{
+  title: "End shake",
+  images: ["IMG_3899.JPG"],
+  video: ""
+},
+
+  ],
+
+  "Jugg": [
+    {
+      title: "Scale rotate jitter shake",
+      images: ["9.JPG"],
+      video: ""
+    },
+    {
+      title: "Scale in and scale out",
+      images: ["10.JPG"],
+      video: ""
+    },
+    {
+      title: "Jiggle shake",
+      images: ["IMG_3838.JPG"],
+      video: ""
+    },
+    {
+      title: "Squish and pan",
+      images: ["IMG_3839.JPG"],
+      video: ""
+    },
+    {
+      title: "Zoom in bounce",
+      images: ["IMG_3840.JPG"],
+      video: ""
+    },
+  {
+      title: "Zoom in jitter shake",
+      images: ["IMG_3841.JPG"],
+      video: ""
+    },
+  {
+      title: "Jugg flash",
+      images: ["IMG_3843.JPG"],
+      video: ""
+    },
+  {
+      title: "Mini wave glitch",
+      images: ["IMG_3842.JPG"],
+      video: ""
+    },
+  {
+      title: "Half sine glitch",
+      images: ["IMG_3844.JPG"],
+      video: ""
+    },
+  {
+      title: "Inflator in",
+      images: ["IMG_3845.JPG"],
+      video: ""
+    },
+  {
+      title: "X-ray flash",
+      images: ["IMG_3847.JPG"],
+      video: ""
+    },
+  {
+      title: "Opacity with turbulence",
+      images: ["IMG_3848.JPG"],
+      video: ""
+    },
+  {
+      title: "Video melt",
+      images: ["IMG_3849.JPG"],
+      video: ""
+    },
+  {
+      title: "Half x-ray",
+      images: ["IMG_3850.JPG"],
+      video: ""
+    },
+  {
+      title: "Pixelate v.1",
+      images: ["IMG_3852.JPG"],
+      video: ""
+    },
+  {
+      title: "Pixelate v.2",
+      images: ["IMG_3851.JPG"],
+      video: ""
+    },
+  ],
+
+  "Coloring": [
+    {
+      title: "Coloring 01",
+      images: ["01-qr1.png"],
+      video: ""
+    }
+  ],
+
+  "Blurs": [
+    {
+      title: "Smooth blur",
+      images: ["3.JPG", "4.JPG", "5.JPG"],
+      video: ""
+    },
+{
+      title: "Glow blur",
+      images: ["IMG_3901.JPG"],
+      video: ""
+    },
+{
+      title: "Directional blur",
+      images: ["IMG_3897.JPG"],
+      video: ""
+    },
+
+  ],
+
+  "Transitions": [
+    {
+      title: "Smooth slide",
+      images: ["IMG_3879.JPG", "IMG_3880.JPG", "IMG_3881.JPG", "IMG_3882.JPG", "IMG_3883.JPG", "IMG_3884.JPG"],
+      video: ""
+    }
+  ],
+
+  "Transitions (Advanced)": [
+    {
+      title: "Advanced Transition 01",
+      images: ["01-qr1.png"],
+      video: ""
+    }
+  ],
+
+  "Velocity": [
+    {
+      title: "Velocity 01",
+      images: ["01-qr1.png"],
+      video: ""
+    }
+  ],
+
+  "Effects / Extras": [
+    {
+      title: "Mini wave vertical",
+      images: ["IMG_3862.JPG"],
+      video: ""
+    },
+ {
+      title: "Mini wave horizontal",
+      images: ["IMG_3863.JPG"],
+      video: ""
+    },
+ {
+      title: "Panning",
+      images: ["IMG_3865.JPG"],
+      video: ""
+    },
+ {
+      title: "Blacken",
+      images: ["IMG_3870.JPG"],
+      video: ""
+    },
+ {
+      title: "Halfone",
+      images: ["IMG_3872.JPG"],
+      video: ""
+    },
+ {
+      title: "Glitchy",
+      images: ["IMG_3903.JPG"],
+      video: ""
+    },
+  ]
+
+};
+
+
+/* ==========================================
+   CATEGORY FOLDER NAMES
+========================================== */
+
+const folderNames = {
+  "Shakes": "shakes",
+  "Jugg": "jugg",
+  "Coloring": "coloring",
+  "Blurs": "blurs",
+  "Transitions": "transitions",
+  "Transitions Advanced": "transitions-advanced",
+  "Velocity": "velocity",
+  "Effects / Extras": "effects-extras"
+};
+
+const sectionIds = {
+  "Shakes": "shakes",
+  "Jugg": "jugg",
+  "Coloring": "coloring",
+  "Blurs": "blurs",
+  "Transitions": "transitions",
+  "Transitions Advanced": "transitions-advanced",
+  "Velocity": "velocity",
+  "Effects / Extras": "effects-extras"
+};
+
+
+/* ==========================================
+   WEBSITE FUNCTIONS
+========================================== */
+
+const nav = document.getElementById("nav");
+const catalog = document.getElementById("catalog");
+const search = document.getElementById("search");
+
+function fileURL(category, filename) {
+  return "folder/" + filename;
+}
+
+
+/* CREATE QR IMAGE */
+
+function makeQRImage(folder, filename, index) {
+  const box = document.createElement("div");
+  box.className = "qrbox";
+
+  const image = document.createElement("img");
+  image.alt = "QR code " + (index + 1);
+  image.loading = "lazy";
+
+  image.onerror = function() {
+    box.textContent = "Add image: " + filename;
+  };
+
+  image.src = fileURL(folder, filename);
+  box.appendChild(image);
+
+  return box;
+}
+
+
+/* CREATE CARD */
+
+function makeCard(category, entry, index) {
+  const card = document.createElement("article");
+  card.className = "card";
+
+  card.dataset.search = (
+    category + " " + entry.title
+  ).toLowerCase();
+
+  const title = document.createElement("h3");
+  title.textContent = entry.title || (category + " " + (index + 1));
+
+  const sub = document.createElement("div");
+  sub.className = "sub";
+  sub.textContent =
+    "QR ARCHIVE · #" + String(index + 1).padStart(2, "0");
+
+  card.appendChild(title);
+  card.appendChild(sub);
+
+  const folder = folderNames[category];
+  const images = Array.isArray(entry.images) ? entry.images : [];
+
+  if (images.length > 0) {
+    const gallery = document.createElement("div");
+    gallery.className = "qr-gallery";
+
+    if (images.length === 1) {
+      gallery.classList.add("single");
+    }
+
+    images.forEach(function(filename, imageIndex) {
+      gallery.appendChild(
+        makeQRImage(folder, filename, imageIndex)
+      );
+    });
+
+    card.appendChild(gallery);
+  } else {
+    const placeholder = document.createElement("div");
+    placeholder.className = "qrbox";
+    placeholder.textContent = "QR image not added yet";
+    card.appendChild(placeholder);
+  }
+
+  if (entry.video && entry.video.trim() !== "") {
+    const videoBox = document.createElement("div");
+
+    const video = document.createElement("video");
+    video.className = "preview";
+    video.controls = true;
+    video.playsInline = true;
+    video.preload = "metadata";
+    video.src = fileURL(folder, entry.video);
+
+    const videoLink = document.createElement("a");
+    videoLink.className = "demo-link";
+    videoLink.textContent = "Open demo video ↗";
+    videoLink.href = fileURL(folder, entry.video);
+    videoLink.target = "_blank";
+    videoLink.rel = "noopener";
+
+    video.addEventListener("error", function() {
+      videoBox.remove();
+    }, { once: true });
+
+    videoBox.appendChild(video);
+    videoBox.appendChild(videoLink);
+    card.appendChild(videoBox);
+  }
+
+  return card;
+}
+
+
+/* BUILD ARCHIVE */
+
+function buildArchive() {
+  nav.innerHTML = "";
+  catalog.innerHTML = "";
+
+  Object.entries(categories).forEach(function([category, entries]) {
+
+    const sectionId = sectionIds[category];
+
+    const navLink = document.createElement("a");
+    navLink.href = "#" + sectionId;
+    navLink.textContent = category;
+    nav.appendChild(navLink);
+
+    const block = document.createElement("section");
+    block.className = "archive-section";
+    block.id = sectionId;
+    block.dataset.section = category;
+
+    const heading = document.createElement("div");
+    heading.className = "section-head";
+
+    const headingTitle = document.createElement("h2");
+    headingTitle.textContent = category;
+
+    const count = document.createElement("span");
+    count.className = "count";
+    count.textContent =
+      entries.length + (entries.length === 1 ? " card" : " cards");
+
+    heading.appendChild(headingTitle);
+    heading.appendChild(count);
+
+    const grid = document.createElement("div");
+    grid.className = "grid";
+
+    entries.forEach(function(entry, index) {
+      grid.appendChild(makeCard(category, entry, index));
+    });
+
+    block.appendChild(heading);
+    block.appendChild(grid);
+    catalog.appendChild(block);
+  });
+}
+
+
+/* SEARCH */
+
+search.addEventListener("input", function() {
+  const query = search.value.trim().toLowerCase();
+
+  document.querySelectorAll(".archive-section").forEach(function(section) {
+    const cards = section.querySelectorAll(".card");
+    let visibleCards = 0;
+
+    cards.forEach(function(card) {
+      const matches = card.dataset.search.includes(query);
+      card.hidden = !matches;
+
+      if (matches) visibleCards++;
+    });
+
+    section.hidden = visibleCards === 0;
+  });
+});
+
+
+/* START */
+
+buildArchive();
+
+</script>
+
+</body>
+</html>
